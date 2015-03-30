@@ -1,0 +1,734 @@
+\documentclass[slidestop,mathserif,compress,xcolor=svgnames]{beamer} 
+\mode<presentation>
+{  
+%   \setbeamertemplate{background canvas}[vertical shading][bottom=DarkBlue!5,top=DarkBlue!5]
+  % \setbeamertemplate{background canvas}[vertical shading][bottom=red!1,top=red!1]
+%  \setbeamertemplate{navigation symbols}[vertical]
+  \setbeamertemplate{navigation symbols}{}%{\insertsectionnavigationsymbol}
+  \usetheme{Pittsburgh}
+   \usecolortheme{tigers}
+   \useinnertheme{rounded}
+% \usecolortheme{bayou}
+  \usefonttheme[onlysmall]{structureitalicserif}
+%  \setbeamertemplate{blocks}[rounded][shadow=true]
+  
+\usefoottemplate{\vbox{%
+\tinycolouredline{structure}%
+{\color{tigersgold}\textbf{\insertshortauthor\hfill\insertshortdate}}%
+}}
+}
+
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,subfigure}
+\usepackage[latin1]{inputenc}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{movie15}
+\hypersetup{
+  pdftitle={Globus Tutorial},
+  pdfauthor={Alexander B. Pacheco, User Services Consultant, Louisiana State University}
+}
+%\usepackage{movie15}
+\usepackage{times}
+
+\setbeamercovered{dynamic}
+\beamersetaveragebackground{DarkBlue!2}
+\beamertemplateballitem
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\title[Globus Procedures ]{Globus Procedures on LONI Systems}
+
+
+\author[Alex Pacheco]{Alexander~B.~Pacheco}
+       
+\institute[HPC@LSU \& LONI] {\inst{}User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}
+
+\date[LONI HPC Workshop - ULL, Nov 1, 2010]{\tiny{LONI HPC Workshop\\University of Louisiana at Lafayette\\November 1, 2010}}
+     
+\subject{Talks}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+\pgfdeclareimage[height=1.5cm]{loni-logo}{LONI}
+\pgfdeclareimage[height=0.5cm]{gold-logo}{GOLD_LSU}
+\pgfdeclareimage[height=0.5cm]{purple-logo}{PURPLELSU}
+\pgfdeclareimage[height=1.5cm]{lsuccttower-logo}{FULLCOLORTOWER_VERT}%{qtp}
+\pgfdeclareimage[height=0.5cm]{lsutower-logo}{ProcessHorizontal}
+\logo{\pgfuseimage{lsuccttower-logo}}
+
+% put MSRI logo in bottom left
+\setbeamertemplate{sidebar left}{%
+   \vfill%
+   \rlap{\hskip0.1cm%
+         %
+         {\pgfuseimage{loni-logo}}}%
+   \vskip2pt%
+   \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+   \vskip2pt%
+}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+% \AtBeginSection[]
+% {
+%   \begin{frame}<beamer>
+%     \frametitle{\small{Outline}}
+%     \small
+%     \tableofcontents[currentsection,currentsubsection]
+%   \end{frame}
+% }
+
+\begin{document}
+
+\frame{\titlepage}
+
+\normalsize
+%\begin{frame}[label=toc,squeeze]
+%  \footnotesize
+%  \frametitle{\small{Outline}}
+%  \tableofcontents
+%\end{frame}
+
+\normalsize
+% \begin{frame}
+%   \frametitle{\small Outline}
+%  \begin{itemize}
+%   \item Using Globus Procedures on LONI Systems.
+%   \begin{enumerate}
+%    \item Setting up Globus Environment on LONI.
+%    \item Creating Grid Certificate.
+%    \item Submitting Jobs using Globus.
+%    \item Moving Files using Globus
+%   \end{enumerate}
+%  \end{itemize}
+% \end{frame}
+
+
+% \part{Introduction}
+\section{Introduction}
+\begin{frame}[fragile]
+\frametitle{\small So Far}
+\begin{itemize}
+\item Overview of HPC
+\item Introduction to vi
+\item LONI Programming Environment
+\item Ready to use LONI Systems
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]
+% \frametitle{{\small So Far}}
+\begin{itemize}
+\item BUT WHICH ONE
+
+\begin{columns}
+\column{4cm}
+\begin{block}{LINUX}
+\begin{enumerate}
+\item Eric
+\item Louie
+\item Oliver
+\item Painter
+\item Poseidon
+\item Queenbee
+\end{enumerate}
+\end{block}
+\column{4cm}
+\begin{block}{AIX}
+\begin{enumerate}
+\item Bluedawg
+\item Ducky
+\item Lacumba
+\item Neptune
+\item Zeke
+\end{enumerate}
+\end{block}
+\end{columns}
+\item How do I manage data and jobs on the LONI systems?
+\item Do I need to login to all systems or
+\item Is there a tool to manage this
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{{\small Globus Toolkit}}
+\begin{block}{}
+\begin{itemize}
+\item Globus Toolkit for building computing grids.
+\item Provides 
+\begin{enumerate}
+\item Grid Resource Allocation Manager (GRAM) for managing jobs
+\item GridFTP, a more reliable and high performance file transfer for Grid computing applications
+\end{enumerate}
+\end{itemize}
+\end{block}
+
+\begin{exampleblock}{}
+\footnotesize{\bf
+\url{http://www.cct.lsu.edu/~apacheco/tutorials/globus.php}\\
+\url{http://www.cct.lsu.edu/~apacheco/tutorials/globus.pdf}}
+\end{exampleblock}
+\end{frame}
+
+% \part{Requirements}
+\section{Setting up Globus Environment on LONI}
+\begin{frame}[fragile]
+\frametitle{{\small Requirements}}
+\begin{itemize}
+\item Access to LONI Account
+\begin{itemize}
+  \item Apply for LONI accounts at \color{tigerspurple}{\bf\url{https://allocations.loni.org}}
+\end{itemize}
+\item Active LONI Grid Certificate
+\item Login to qb1.loni.org
+\tiny{
+\color{DarkBlue}{\begin{verbatim}
+apacheco@pacheco:~/Tutorials/Globus$ ssh qb1.loni.org
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Password: 
+Last login: Mon Nov  1 09:49:17 2010 from 130.70.53.27
+ \end{verbatim}}
+}
+\item Add \texttt{globus} to your environment and resoft
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ soft add +globus-4.0.8-r2
+[apacheco@qb1 ~]$ resoft
+\end{verbatim}}
+}
+\end{itemize}
+\end{frame}
+
+\normalsize
+\section{Creating Grid Certificate}
+\begin{frame}[fragile]
+\frametitle{\small{How To Request for a Grid Certificate}}
+\begin{itemize}
+ \item Request LONI Grid Certificate
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ grid-cert-request
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+A certificate request and private key is being created.
+You will be asked to enter a PEM pass phrase.
+This pass phrase is akin to your account password,
+and is used to protect your key file.
+If you forget your pass phrase, you will need to
+obtain a new certificate.
+
+Generating a 1024 bit RSA private key
+..................................++++++
+............++++++
+writing new private key to '/home/apacheco/.globus/userkey.pem'
+Enter PEM pass phrase:
+ \end{verbatim}}
+}
+\item To recreate a certificate
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ grid-cert-request -force
+\end{verbatim}}
+}
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{\small{Grid Certificates}}
+\begin{itemize}
+\item .globus directory will be created in the home directory with three files:
+\texttt{usercert$\_$request.pem},\texttt{userkey.pem} and \texttt{usercert.pm}
+\item email \texttt{usercert$\_$request.pem} file to {\color{tigerspurple}{\footnotesize\bf{\href{mailto:ca@loni.org}{ca@loni.org}}}}
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ cat $HOME/.globus/usercert_request.pem | mail ca@loni.org
+\end{verbatim}}
+}
+\item Copy the signed certificate you receive from LONI administrator to
+\texttt{$\sim$/.globus/usercert.pem}
+\vspace{5cm}
+\item {Certificate Information}
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ grid-cert-info
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 340 (0x154)
+        Signature Algorithm: md5WithRSAEncryption
+        Issuer: C=US, O=Louisiana Optical Network Initiative, OU=loni.org, CN=LONI CA
+ blah blah blah
+\end{verbatim}}
+}
+\item {Distinguished Name}
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ grid-cert-info -subject
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+/C=US/O=Louisiana Optical Network Initiative/OU=loni.org/OU=sys.loni.org/CN=Alexander Pacheco
+\end{verbatim}}
+}
+\item {Issuer Hash}
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ grid-cert-info -issuerhash
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+a3bf9f3c
+\end{verbatim}}
+}
+\vspace{5cm}
+\item {More Details/Help}
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ grid-cert-info -help
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+grid-cert-info [-help] [-file certfile] [-all] [-subject] [...]
+
+    Displays certificate information. Unless the optional -file
+    argument is given, the default location of the file containing the
+blah blah blah
+\end{verbatim}
+}}
+\item Generating a valid proxy.
+\end{itemize}
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ grid-proxy-init
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-1.0cm}\begin{verbatim}
+Your identity: /C=US/O=Louisiana Optical Network Initiative/OU=loni.org/OU=sys.loni.org/CN=Alexander Pacheco
+Enter GRID pass phrase for this identity:
+Creating proxy ............................................................... Done
+Your proxy is valid until: Fri Oct 22 03:30:20 2010
+\end{verbatim}}
+}
+\end{frame}
+
+% \part{File Transfer}
+\section{File Transfer using Globus}
+\begin{frame}[fragile,allowframebreaks]
+ \frametitle{\small Moving Files using Globus}
+\begin{itemize}
+ \item Globus provides \texttt{globus-url-copy}, a scriptable command line tool that can do multi-protocol data movement.
+ \item Supports: gsiftp:// (GridFTP), ftp://, http://, https://, and file:///
+ \item Usage: 
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+globus-url-copy [-help | -usage] [-version[s]] [-vb] [-dbg] [-b | -a]
+                [-q] [-r] [-rst] [-f <filename>]
+                [-s <subject>] [-ds <subject>] [-ss <subject>]
+                [-tcp-bs <size>] [-bs <size>] [-p <parallelism>]
+                [-notpt] [-nodcau] [-dcsafe | -dcpriv]
+                <sourceURL> <destURL>
+\end{verbatim}}
+}
+\item transfer a file from queenbee to oliver
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 globus-tutorial]$ globus-url-copy \
+     gsiftp://qb1.loni.org/home/apacheco/globus-tutorial/100mbfile \
+     gsiftp://oliver1.loni.org/home/apacheco/100mbfile
+\end{verbatim}}
+}
+\item create a 1GB file and transfer to zeke with verbose (-vb) option
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 globus-tutorial]$ dd count=1000 bs=1024k if=/dev/zero \
+ of=/work/apacheco/1gbfile
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+1000+0 records in
+1000+0 records out
+\end{verbatim}}
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 globus-tutorial]$ globus-url-copy -vb \
+       file:///work/apacheco/1gbfile \
+       gsiftp://zeke.loni.org/mnt/lpfs.nfs302/apacheco/1gbfile
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Source: file:///work/apacheco/
+Dest:   gsiftp://zeke.loni.org/mnt/lpfs.nfs302/apacheco/
+  1gbfile
+    1020264448 bytes        29.87 MB/sec avg        35.00 MB/sec inst
+\end{verbatim}
+}}
+\item Create a directory to store a filename
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-url-copy -vb -cd \
+gsiftp://eric1.loni.org/home/apacheco/100mbfile \
+gsiftp://qb1.loni.org/home/apacheco/createdirectory/100mbfile
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Source: gsiftp://eric1.loni.org/home/apacheco/
+Dest:   gsiftp://qb1.loni.org/home/apacheco/createdirectory/
+  100mbfile
+    104857600 bytes        58.82 MB/sec avg        58.82 MB/sec inst 
+\end{verbatim}
+}}
+\item Transfer files from a directory recursively
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+ [apacheco@qb1 globus-tutorial]$ globus-url-copy -vb -r -cd \
+gsiftp://qb1.loni.org/home/apacheco/globus-tutorial/ \
+gsiftp://oliver1.loni.org/home/apacheco/createdirectory/
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Source: gsiftp://qb1.loni.org/home/apacheco/globus-tutorial/
+Dest:   gsiftp://oliver1.loni.org/home/apacheco/createdirectory/
+  200mbfile
+    209715200 bytes        34.48 MB/sec avg        34.48 MB/sec inst
+  100mbfile
+    104857600 bytes        27.03 MB/sec avg        27.03 MB/sec inst
+\end{verbatim}
+}}
+\item You can adjust the tcp buffer size and buffer size using the options \texttt{-tcp-bs} and \texttt{-bs}
+\item Use parallel streams for transfer with \texttt{-p} option
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 globus-tutorial]$ globus-url-copy -p 4 -vb \
+     file:///work/apacheco/1gbfile \
+     gsiftp://zeke.loni.org/mnt/lpfs.nfs302/apacheco/1gbfile
+\end{verbatim}}
+}
+\item On the LONI machines, \texttt{-p 5 -tcp-bs 2097152} is recommended for a reasonable performance (not necessarily the most optimized set of option numbers).
+\item multiple transfers from a script file using the \texttt{-f} switch (example in job submission section)
+\end{itemize}
+
+\end{frame}
+% \part{Submit Jobs}
+\section{Submitting Jobs using Globus}
+\subsection{Serial}
+\begin{frame}[fragile,allowframebreaks]
+\frametitle{\small{Job Submission}}
+\begin{itemize}
+\item Job Submission using \texttt{globus-job-run}.
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run -help
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Usage: globus-job-run
+      [-help|-usage]                     print usage and exit
+      [-version]                         print version and exit
+
+\end{verbatim}
+}}
+\item Run a simple command on a LONI machine 
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run louie1.loni.org /bin/date
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Thu Oct 21 14:57:19 CDT 2010
+\end{verbatim}
+}
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run louie1.loni.org /bin/hostname
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+louie1.loni.org
+\end{verbatim}
+}}
+\item Run a shell script with arguments using globus
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run oliver1.loni.org -s random-generator.sh 4 7
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+2377875
+2910657
+8458138
+1522082
+ \end{verbatim}}
+\vspace{-0.5cm}
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run bluedawg.loni.org -s random-generator.sh 4 7
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+5138706
+1757255
+3086336
+5345316
+\end{verbatim}
+}}
+\vspace{5cm}
+\item -np N : number of processing elements
+\item -stdin [-l|-s] file  : standard input 
+\item -stdout [-l|-s] file : standard output 
+\item -l[ocal] : file is relative to working directory of job (DEFAULT)
+\item -s[tage] : file relative to job request is staged to job host
+\item -x rsl-clause : RSL extension capability
+\vspace{4cm}
+\item Execute commands on remote machine using input from staging machine
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run louie1.loni.org -stdin -s /etc/hosts -l /bin/cat 
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1       localhost.localdomain localhost
+204.90.40.60    eta.hpc.lsu.edu eta
+208.100.92.71   l6l1u01.sys.loni.org
+.....
+10.192.92.247    qbib20-1
+10.192.92.248    qbib20-2 
+\end{verbatim}
+}}
+\item Execute commands on remote machine using input from local machine
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run louie1.loni.org -stdin -l /etc/hosts -l /bin/cat
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1       localhost.localdomain localhost
+204.90.40.60    eta.hpc.lsu.edu eta
+208.100.92.71   l6l1u01.sys.loni.org
+208.100.92.72   l6l1u02.sys.loni.org
+.....
+172.17.73.227  louie127h
+172.17.73.228  louie128h
+\end{verbatim}
+}}
+\vspace{5cm}
+\item Execute commands and write output on staging machine
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run louie1.loni.org -stdout -s hellohosts \
+-stdin -s /etc/hosts -l /bin/cat
+[apacheco@qb1 ~]$ head -4 hellohosts ; tail -2 hellohosts 
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1       localhost.localdomain localhost
+204.90.40.60    eta.hpc.lsu.edu eta
+10.192.92.247    qbib20-1
+10.192.92.248    qbib20-2
+\end{verbatim}
+}}
+ \item Job submission using \texttt{globus-job-submit}
+ \item submit a job to the scheduling jobmanager
+ {\tiny
+   \color{DarkBlue}{\begin{verbatim}
+ [apacheco@qb1 ~]$ globus-job-submit oliver1.loni.org/jobmanager /bin/date
+\end{verbatim}}
+  \color{DarkGreen}{\vspace{-0.0cm}\begin{verbatim}
+https://oliver1.loni.org:50886/26507/1288375416/
+\end{verbatim}}
+}
+ \item \texttt{globus-job-status} checks status of jobmanager
+ {\tiny
+   \color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-status https://oliver1.loni.org:50886/26507/1288375416/
+\end{verbatim}}
+  \color{DarkGreen}{\vspace{-0.0cm}\begin{verbatim}
+DONE
+\end{verbatim}}
+}
+ \item \texttt{globus-job-get-output} gets output of the job
+ {\tiny
+   \color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-get-output https://oliver1.loni.org:50886/26507/1288375416/
+\end{verbatim}}
+  \color{DarkGreen}{\vspace{-0.0cm}\begin{verbatim}
+Fri Oct 29 13:03:36 CDT 2010
+\end{verbatim}}
+}
+\end{itemize}
+\end{frame}
+
+\subsection{Parallel}
+\begin{frame}[fragile,allowframebreaks]
+ \frametitle{\small{Submit Parallel Jobs}}
+\begin{itemize}
+ \item Submit an openmp parallelized code on
+\begin{enumerate}
+\item eric (PBS)
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run eric1.loni.org/jobmanager-pbs \
+-np 1 -m 10 -p loni_loniadmin1 -q single -stdin \
+-s /home/apacheco/dft/flux-full.dat -stdout \
+-s flux-eric1-parallel.dat -s /home/apacheco/dft/dft.parallel
+\end{verbatim}}
+}
+\item  zeke (loadleveler)
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run zeke.loni.org/jobmanager-loadleveler \
+ -env "GBLL_NETWORK_MPI=sn_all,not_shared,US" -stdin \
+-s /home/apacheco/dft/flux-full.dat -x  "&(jobType=mpi)(count=2)\
+(maxWallTime=10)(queue=checkpt)(stdout=/mnt/lpfs.nfs302/apacheco/dft.out)\
+(stderr=/mnt/lpfs.nfs302/apacheco/dft.err)(hostCount=1)" \
+-s /home/apacheco/dft/dft.xlf
+[apacheco@qb1 ~]$ cat dft.output 
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+gsiftp://zeke.loni.org/mnt/lpfs.nfs302/apacheco/dft.out \
+file:///home/apacheco/dft.out
+gsiftp://zeke.loni.org/mnt/lpfs.nfs302/apacheco/dft.err \
+file:///home/apacheco/dft.err
+ \end{verbatim}}
+\color{DarkBlue}{\vspace{-0.5cm}\begin{verbatim}
+[apacheco@qb1 ~]$ globus-url-copy -vb -f dft.output 
+ \end{verbatim}}
+ \color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Source: gsiftp://zeke.loni.org/mnt/lpfs.nfs302/apacheco/
+Dest:   file:///home/apacheco/
+  dft.out
+
+Source: gsiftp://zeke.loni.org/mnt/lpfs.nfs302/apacheco/
+Dest:   file:///home/apacheco/
+  dft.err
+\end{verbatim}}
+}
+\end{enumerate}
+\vspace{10cm}
+\item copy \texttt{helloworld.c} from \texttt{queenbee.loni.org:/home/apacheco/helloworld.c}
+\item compile on bluedawg/zeke/(any other P5 machine) using
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+mpcc helloworld.c -o helloworld
+\end{verbatim}}
+}
+\item Submit an MPI job 
+\begin{enumerate}
+\item on bluedawg/zeke/(any other P5 machine) 
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run bluedawg.loni.org/jobmanager-loadleveler \
+-env "GBLL_NETWORK_MPI=sn_all,not_shared,US" -x  "&(jobType=mpi)(count=8)\
+(maxWallTime=10)(queue=checkpt)(hostCount=1)" -l /home/apacheco/helloworld
+ \end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+Hello world from 0 out of 8
+Hello world from 1 out of 8
+Hello world from 2 out of 8
+Hello world from 3 out of 8
+Hello world from 4 out of 8
+Hello world from 5 out of 8
+Hello world from 6 out of 8
+Hello world from 7 out of 8
+ATTENTION: 0031-408  8 tasks allocated by LoadLeveler, continuing... 
+\end{verbatim}}
+}
+\item on eric/oliver/(any other intel machine)
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ globus-job-run eric1.loni.org/jobmanager-pbs \
+-x "(jobType=mpi)(hostCount=1)(maxWallTime=10)(queue=checkpt)\
+(stdout=/home/apacheco/gljobrun.out)" -s /home/apacheco/helloworld
+\end{verbatim}}
+\color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
+[apacheco@eric2 ~]$ cat gljobrun.out
+--------------------------------------
+Running PBS prologue script
+--------------------------------------
+User and Job Data:
+--------------------------------------
+Job ID:    262113.eric2
+Username:  apacheco
+Group:     loniadmin
+Date:      27-Oct-2010 15:44
+Node:      eric052 (7032)
+--------------------------------------
+PBS has allocated the following nodes:
+
+eric052
+
+A total of 4 processors on 1 nodes allocated
+---------------------------------------------
+Check nodes and clean them of stray processes
+---------------------------------------------
+Checking node eric052 15:44:34 
+Done clearing all the allocated nodes
+------------------------------------------------------
+Concluding PBS prologue script - 27-Oct-2010 15:44:34
+------------------------------------------------------
+Hello world from 0 out of 4
+Hello world from 2 out of 4
+Hello world from 1 out of 4
+Hello world from 3 out of 4
+\end{verbatim}}
+}
+\end{enumerate}
+\item Job submission using \texttt{globusrun} with Resource Specification Language (RSL) commands in a file
+
+{\tiny
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$ cat eric.rsl                 
+\end{verbatim}}
+\color{DarkGreen}{\vspace{-0.3cm}\begin{verbatim}
+& (jobType=mpi)
+(hostCount=1)
+(maxWallTime=10)
+(queue=checkpt)
+(executable=/home/apacheco/helloworld)
+(stdout=/home/apacheco/gljobrun.out)                          
+\end{verbatim}
+}
+\color{DarkBlue}{\begin{verbatim}
+[apacheco@qb1 ~]$  globusrun -r eric1.loni.org/jobmanager-pbs -f eric.rsl -b            
+\end{verbatim}}
+\color{DarkGreen}{\vspace{-0.3cm}\begin{verbatim}
+globus_gram_client_callback_allow successful
+GRAM Job submission successful
+https://eric1.loni.org:50886/779/1288371858/
+GLOBUS_GRAM_PROTOCOL_JOB_STATE_PENDING                        
+\end{verbatim}
+}
+}
+\end{itemize}
+\end{frame}
+
+
+% \begin{frame}[fragile]
+%  \frametitle{RSL}
+% \begin{itemize}
+% \item Resource Specification Language:\\
+%   -x ``resource descriptions`` 
+% \item Resubmit previous job on eric using \texttt{eric.rsl} and \texttt{globusrun}
+% {\tiny
+% }
+% \end{itemize}
+% \end{frame}
+
+
+\section{References}
+\begin{frame}
+ \frametitle{{\tiny References}}
+\begin{block}{}
+\begin{itemize}
+ \item \footnotesize{{\bf Globus Toolkit}\\\color{tigerspurple}{\bf \url{http://www.globus.org/toolkit/}}}
+ \item \footnotesize{{\bf Loni Docs: Globus Tutorial using LONI resources}\\\color{tigerspurple}{\bf \url{https://docs.loni.org/wiki/Globus_Tutorial_using_LONI_resources}}}
+ \item \footnotesize{{\bf Moodle: HPC105 - Getting Started with Globus Toolkit}\\\color{tigerspurple}{\bf \url{https://docs.loni.org/moodle/}}}
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+
+
+\end{document}
