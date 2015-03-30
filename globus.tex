@@ -5,16 +5,20 @@
   % \setbeamertemplate{background canvas}[vertical shading][bottom=red!1,top=red!1]
 %  \setbeamertemplate{navigation symbols}[vertical]
   \setbeamertemplate{navigation symbols}{}%{\insertsectionnavigationsymbol}
-  \usetheme{Pittsburgh}
+%   \usetheme{Pittsburgh}
    \usecolortheme{tigers}
    \useinnertheme{rounded}
 % \usecolortheme{bayou}
   \usefonttheme[onlysmall]{structureitalicserif}
 %  \setbeamertemplate{blocks}[rounded][shadow=true]
-  
+
+% \useheadtemplate{\vbox{%
+% \tinycolouredline{structure}%
+% {\color{tigersblue}\textbf{\hfill\insertshortinstitute\hfill}}%
+% }}  
 \usefoottemplate{\vbox{%
 \tinycolouredline{structure}%
-{\color{tigersgold}\textbf{\insertshortauthor\hfill\insertshortdate}}%
+{\color{tigersblue}\textbf{\insertshortinstitute\hfill\insertshortdate}}%
 }}
 }
 
@@ -47,9 +51,10 @@
 
 \author[Alex Pacheco]{Alexander~B.~Pacheco}
        
-\institute[HPC@LSU \& LONI] {\inst{}User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}
+\institute[High Performance Computing @ Louisiana State University - http://www.hpc.lsu.edu] {\inst{}User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}
 
-\date[LONI HPC Workshop - ULL, Nov 1, 2010]{\tiny{LONI HPC Workshop\\University of Louisiana at Lafayette\\November 1, 2010}}
+% \date[LSU HPC Training Series - Nov 10, 2010]{\tiny{LSU HPC Training Series\\Louisiana State University\\November 10, 2010}}
+\date[Nov 10, 2010]{\tiny{LSU HPC Training Series\\Louisiana State University\\November 10, 2010}}
      
 \subject{Talks}
 % This is only inserted into the PDF information catalog. Can be left
@@ -64,18 +69,27 @@
 
 \pgfdeclareimage[height=1.5cm]{loni-logo}{LONI}
 \pgfdeclareimage[height=0.5cm]{gold-logo}{GOLD_LSU}
-\pgfdeclareimage[height=0.5cm]{purple-logo}{PURPLELSU}
+\pgfdeclareimage[height=0.8cm]{purple-logo}{PURPLELSU}
 \pgfdeclareimage[height=1.5cm]{lsuccttower-logo}{FULLCOLORTOWER_VERT}%{qtp}
 \pgfdeclareimage[height=0.5cm]{lsutower-logo}{ProcessHorizontal}
-\logo{\pgfuseimage{lsuccttower-logo}}
+% \logo{\pgfuseimage{purple-logo}}
 
 % put MSRI logo in bottom left
 \setbeamertemplate{sidebar left}{%
    \vfill%
-   \rlap{\hskip0.1cm%
+   \rlap{\hskip0.02cm%
          %
          {\pgfuseimage{loni-logo}}}%
+   \vskip-7pt%
+   \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
    \vskip2pt%
+}
+\setbeamertemplate{sidebar right}{%
+   \vfill%
+   \rlap{\hskip-2.1cm%
+         %
+         {\pgfuseimage{purple-logo}}}%
+   \vskip-6pt%
    \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
    \vskip2pt%
 }
@@ -119,7 +133,7 @@
 
 % \part{Introduction}
 \section{Introduction}
-\begin{frame}[fragile]
+\begin{frame}<0>[fragile]
 \frametitle{\small So Far}
 \begin{itemize}
 \item Overview of HPC
@@ -132,7 +146,7 @@
 \begin{frame}[fragile,allowframebreaks]
 % \frametitle{{\small So Far}}
 \begin{itemize}
-\item BUT WHICH ONE
+\item LONI Systems
 
 \begin{columns}
 \column{4cm}
@@ -196,7 +210,7 @@
 \item Login to qb1.loni.org
 \tiny{
 \color{DarkBlue}{\begin{verbatim}
-apacheco@pacheco:~/Tutorials/Globus$ ssh qb1.loni.org
+[apacheco@llacinski-1 ~] ssh qb1.loni.org
  \end{verbatim}}
 \color{DarkGreen}{\vspace{-0.5cm}\begin{verbatim}
 Password: 
@@ -258,7 +272,7 @@ Enter PEM pass phrase:
 \end{verbatim}}
 }
 \item Copy the signed certificate you receive from LONI administrator to
-\texttt{$\sim$/.globus/usercert.pem}
+\texttt{\$HOME/.globus/usercert.pem}
 \vspace{5cm}
 \item {Certificate Information}
 {\tiny
@@ -718,7 +732,7 @@ GLOBUS_GRAM_PROTOCOL_JOB_STATE_PENDING
 
 \section{References}
 \begin{frame}
- \frametitle{{\tiny References}}
+ \frametitle{{\small References}}
 \begin{block}{}
 \begin{itemize}
  \item \footnotesize{{\bf Globus Toolkit}\\\color{tigerspurple}{\bf \url{http://www.globus.org/toolkit/}}}
